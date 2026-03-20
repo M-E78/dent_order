@@ -147,7 +147,7 @@ MVPリリース時の機能
 - 使用するフレームワーク（例：使用するフレームワークのバージョン情報等）
   Rails 7
 - データベース（MySQL / PostgreSQLなど）
-  MySQL
+  MySQL (開発環境) / PostgreSQL (本番環境：Neon)
 - デプロイ先（Heroku / Renderなど）
 　Render
 - 使用予定のライブラリ

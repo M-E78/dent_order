@@ -81,4 +81,5 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
+RUN ./bin/rails db:migrate RAILS_ENV=production || true
 CMD ["./bin/rails", "server"]

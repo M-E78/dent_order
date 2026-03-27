@@ -23,5 +23,15 @@ module Myapp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # 1. タイムゾーンを日本時間に設定
+    config.time_zone = "Tokyo"
+    config.active_record.default_timezone = :local
+
+    # 2. 日本語設定
+    config.i18n.default_locale = :ja
+
+    # 3. 言語ファイルの読み込みパスを広げる（locales フォルダの下にフォルダを作っても読み込めるようにする）
+    config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}").to_s]
   end
 end

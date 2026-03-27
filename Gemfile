@@ -65,3 +65,7 @@ group :test do
 end
 
 gem "ruby-openai"
+
+gem "devise", "~> 5.0"
+
+gem "devise-i18n", "~> 1.16"

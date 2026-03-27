@@ -1,3 +1,7 @@
+<% if user_signed_in? %>
+  <p class="text-slate-600 font-bold">ようこそ、<%= current_user.name %> 先生</p>
+<% end %>
+
 <div class="min-h-screen flex flex-col items-center justify-center bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
   <div class="text-center mb-8">
     <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-600 text-white shadow-lg mb-4">
@@ -42,15 +46,15 @@
         ログイン
       </button>
 
-      <div class="relative py-4">
+      <div class="relative py-2">
         <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-200"></div></div>
         <div class="relative flex justify-center text-xs uppercase"><span class="bg-white px-2 text-slate-400">または</span></div>
       </div>
 
-      <button type="button" class="w-full flex justify-center py-3.5 px-4 border-2 border-slate-100 rounded-xl shadow-sm text-sm font-bold text-slate-600 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-all duration-200">
+      <%= link_to select_role_path, class: "w-full flex justify-center py-3.5 px-4 border-2 border-slate-100 rounded-xl shadow-sm text-sm font-bold text-slate-600 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-all duration-200" do %>
         <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
         新規アカウント登録
-      </button>
+      <% end %>
     </form>
   </div>
 

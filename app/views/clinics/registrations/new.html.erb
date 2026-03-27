@@ -1,0 +1,43 @@
+<div class="min-h-screen bg-slate-50 py-12 px-4">
+  <div class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+    
+    <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center">歯科医院 新規登録</h2>
+
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <%# --- 医院の情報 --- %>
+  <%= f.fields_for :clinic do |cf| %>
+    <div>
+      <%= cf.label :name, "歯科医院名" %><br />
+      <%= cf.text_field :name, autofocus: true %>
+    </div>
+  <% end %>
+
+  <%# --- ユーザーの情報 --- %>
+  <div class="mb-4">
+    <%= f.label :name, "氏名（院長名）", class: "block text-sm font-medium text-slate-700" %>
+    <%= f.text_field :name, autofocus: true, placeholder: "歯科 太郎", class: "mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" %>
+  </div>
+  
+  <div>
+    <%= f.label :email, class: "w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" %><br />
+    <%= f.email_field :email %>
+  </div>
+
+  <div>
+    <%= f.label :password, class: "w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" %>
+    <% if @minimum_password_length %><em>(<%= @minimum_password_length %> 文字以上)</em><% end %><br />
+    <%= f.password_field :password %>
+  </div>
+
+  <div>
+    <%= f.label :password_confirmation, class: "w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" %><br />
+    <%= f.password_field :password_confirmation %>
+  </div>
+
+  <div class="mt-6">
+    <%= f.submit "登録する", class: "w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100" %>
+  </div>
+<% end %>

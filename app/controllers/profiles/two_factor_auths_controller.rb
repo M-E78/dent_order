@@ -6,6 +6,7 @@ class Profiles::TwoFactorAuthsController < ApplicationController
     unless current_user.otp_required_for_login
       # まだ秘密鍵がない（nil）場合のみ生成
       current_user.otp_secret = User.generate_otp_secret if current_user.otp_secret.blank?
+      current_user.save!
     end
 
     @uri = current_user.otp_provisioning_uri(current_user.email, issuer: "Dent-Order")

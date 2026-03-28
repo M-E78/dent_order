@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_27_132220) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_28_052211) do
   create_table "clinics", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "address"
@@ -36,6 +36,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_27_132220) do
     t.bigint "clinic_id"
     t.bigint "lab_id"
     t.string "name"
+    t.string "otp_secret"
+    t.integer "consumed_timestep"
+    t.boolean "otp_required_for_login"
     t.index ["clinic_id"], name: "index_users_on_clinic_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["lab_id"], name: "index_users_on_lab_id"

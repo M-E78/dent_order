@@ -1,16 +1,20 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :two_factor_authenticatable,  # 二段階認証を追加
+         :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable,
+         :otp_secret_encryption_key => ENV['OTP_SECRET_ENCRYPTION_KEY']
 
   belongs_to :clinic, optional: true
   belongs_to :lab, optional: true
 
   # Userを通じて Clinic を保存できるようにする
   accepts_nested_attributes_for :clinic
-
   validate :must_belong_to_either_clinic_or_lab
+
+ 
+         
 
   private
 

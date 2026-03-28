@@ -31,13 +31,20 @@ services: # コンテナの定義開始
       - .:/myapp # ソースコードのマウント
       - bundle_data:/usr/local/bundle:cached # gemの永続化
       - node_modules:/myapp/node_modules # node_modulesの永続化
+    env_file:
+      - .env  # これを追記することで、.envの中身が自動でENVに入るようになります
     environment: # 環境変数の設定
       TZ: Asia/Tokyo # タイムゾーンを日本に設定
+      OTP_SECRET_ENCRYPTION_KEY: ${OTP_SECRET_ENCRYPTION_KEY}
+      ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: ${ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY}
+      ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: ${ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY}
+      ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: ${ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT}
     ports: # ポート設定
       - "3000:3000" # Rails標準のポート
     depends_on: # 依存関係の設定
       db: # dbサービスに依存
         condition: service_healthy # dbの健康チェックが通るまで待機
+    
 volumes: # ボリュームの定義
   mysql_data: # MySQLデータの永続化用ボリューム
   bundle_data: # gemデータの永続化用ボリューム

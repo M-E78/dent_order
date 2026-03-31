@@ -11,10 +11,10 @@ class Clinics::RegistrationsController < Devise::RegistrationsController
   def sign_up_params
     params.require(:user).permit(
       :name,
-      :email, 
-      :password, 
-      :password_confirmation, 
-      clinic_attributes: [:name, :address, :phone_number]
+      :email,
+      :password,
+      :password_confirmation,
+      clinic_attributes: [ :name, :address, :phone_number ]
     )
   end
 end

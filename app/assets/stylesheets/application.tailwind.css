@@ -1,1 +1,4 @@
 @import "tailwindcss";
+
+/* スキャン対象を追加 */
+@source "/myapp/app/views/**/*.erb";

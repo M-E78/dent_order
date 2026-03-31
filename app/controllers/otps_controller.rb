@@ -1,4 +1,8 @@
 class OtpsController < ApplicationController
+  # 二段階認証の入力中は、まだ「ログイン完了」前なのでチェックをスキップ
+  skip_before_action :authenticate_user!, only: [ :new, :create ]
+  skip_before_action :check_profile_completion, only: [ :new, :create ]
+
   def new
     # セッションにユーザーIDがない（不正なアクセス）なら戻す
     redirect_to new_user_session_path if session[:otp_user_id].blank?

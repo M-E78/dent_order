@@ -2,7 +2,7 @@ class Users::SessionsController < Devise::SessionsController
   def create
     # 1. まずはIDとパスワードでユーザーを探す
     self.resource = warden.authenticate!(auth_options)
-    
+
     # 2. もし二段階認証が「有効」なら、一旦ログアウトさせてコード入力画面へ
     if resource.otp_required_for_login
       # まだログインさせない（サインアウト状態にする）

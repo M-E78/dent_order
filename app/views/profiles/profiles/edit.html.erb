@@ -1,0 +1,40 @@
+<div class="min-h-screen bg-gray-100 flex flex-col justify-center py-12 px-6 lg:px-8">
+  <%# フォームを中央に寄せ、最大幅を制限する (max-w-md) %>
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+  class="bg-red-500"
+    <div class="bg-white py-8 px-10 shadow-xl rounded-2xl border border-gray-100">
+      
+      <h2 class="text-center text-2xl font-bold text-gray-800 mb-8">
+        <%= @organization.is_a?(Clinic) ? "歯科医院" : "歯科技工所" %> 詳細設定
+      </h2>
+
+      <%= form_with model: @organization, url: profile_path, method: :patch, local: true, class: "space-y-6" do |f| %>
+        
+        <div>
+          <%= f.label :name, "名称", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+          <%= f.text_field :name, required: true, class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" %>
+        </div>
+
+        <div>
+          <%= f.label :postal_code, "郵便番号", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+          <%= f.text_field :postal_code, placeholder: "123-4567", required: true, class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" %>
+        </div>
+
+        <div>
+          <%= f.label :address, "住所", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+          <%= f.text_field :address, required: true, class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" %>
+        </div>
+
+        <div>
+          <%= f.label :phone_number, "電話番号", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+          <%= f.text_field :phone_number, required: true, class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" %>
+        </div>
+
+        <div class="pt-4">
+          <%= f.submit "設定を保存して次へ", class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg shadow-md hover:shadow-lg transition-all cursor-pointer" %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>

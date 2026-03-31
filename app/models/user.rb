@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :two_factor_authenticatable,  # 二段階認証を追加
          :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :otp_secret_encryption_key => ENV['OTP_SECRET_ENCRYPTION_KEY']
+         otp_secret_encryption_key: ENV["OTP_SECRET_ENCRYPTION_KEY"]
 
   belongs_to :clinic, optional: true
   belongs_to :lab, optional: true
@@ -13,15 +13,12 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :clinic
   validate :must_belong_to_either_clinic_or_lab
 
- 
-         
-
   private
 
   # 医院と技工所のどちらにも属していないアカウントの発生防止
   def must_belong_to_either_clinic_or_lab
     if clinic.blank? && lab.blank?
       errors.add(:base, "歯科医院または技工所のどちらかに所属する必要があります")
-    end  
+    end
   end
 end

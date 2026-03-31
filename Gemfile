@@ -70,6 +70,6 @@ gem "devise", "~> 5.0"
 
 gem "devise-i18n", "~> 1.16"
 
-gem 'devise-two-factor'
+gem "devise-two-factor"
 
-gem 'rqrcode'
+gem "rqrcode"

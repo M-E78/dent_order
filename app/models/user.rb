@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  # 新規登録フォームから「歯科医院名」を受け取るための一時的な入れ物
+  attr_accessor :clinic_name
+  attr_accessor :clinic_name, :lab_name
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :two_factor_authenticatable,  # 二段階認証を追加

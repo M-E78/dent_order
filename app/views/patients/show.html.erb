@@ -1,2 +1,70 @@
-<h1>Patients#show</h1>
-<p>Find me in app/views/patients/show.html.erb</p>
+<div class="min-h-screen bg-slate-50 py-8 px-4">
+  <div class="max-w-4xl mx-auto">
+    
+    <%# --- 患者基本情報ヘッダー --- %>
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-6 flex justify-between items-end">
+      <div>
+        <p class="text-sm text-slate-500 mb-1">カルテNo: <%= @patient.chart_number %></p>
+        <h1 class="text-3xl font-bold text-slate-800"><%= @patient.name %> 様</h1>
+      </div>
+      <%= link_to "新しい指示書を作成", new_patient_lab_order_path(@patient), class: "bg-blue-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700 transition" %>
+    </div>
+
+    <h2 class="text-xl font-bold text-slate-800 mb-4 ml-2 text-left">指示書履歴</h2>
+
+    <%# --- 指示書のリスト --- %>
+    <% if @lab_orders.any? %>
+      <div class="space-y-4">
+        <% @lab_orders.each do |order| %>
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:border-blue-300 transition">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded mb-2 inline-block">
+                  <%= order.status_text %>
+                </span>
+                <h3 class="text-lg font-bold text-slate-800"><%= order.menu_name %></h3>
+              </div>
+              <div class="text-right">
+                <p class="text-sm text-slate-500">セット日</p>
+                <p class="text-lg font-bold text-blue-600"><%= order.set_date || "未定" %></p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm border-t border-slate-50 pt-4">
+              <div>
+                <p class="text-slate-500">担当医</p>
+                <p class="font-medium"><%= order.doctor_name %></p>
+              </div>
+              <div>
+                <p class="text-slate-500">マテリアル</p>
+                <p class="font-medium"><%= order.material %></p>
+              </div>
+              <div>
+                <p class="text-slate-500">シェード</p>
+                <p class="font-medium"><%= order.shade %></p>
+              </div>
+              <div>
+                <p class="text-slate-500">発行日</p>
+                <p class="font-medium"><%= order.created_at.strftime("%Y/%m/%d") %></p>
+              </div>
+            </div>
+
+            <% if order.notes.present? %>
+              <div class="mt-4 p-3 bg-slate-50 rounded-lg text-sm text-slate-700 italic">
+                「<%= order.notes %>」
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="text-center py-12 bg-white rounded-xl border border-dashed border-slate-300">
+        <p class="text-slate-400">まだ指示書の履歴はありません</p>
+      </div>
+    <% end %>
+
+    <div class="mt-8 text-center">
+      <%= link_to "一覧に戻る", root_path, class: "text-slate-500 hover:underline" %>
+    </div>
+  </div>
+</div>

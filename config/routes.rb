@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  get "doctors/index"
+  get "doctors/new"
+  get "doctors/create"
+  get "lab_orders/index"
+  get "lab_orders/new"
+  get "lab_orders/create"
+  get "lab_orders/show"
+  get "lab_orders/edit"
+  get "lab_orders/update"
   get "patients/index"
   get "patients/new"
   get "patients/create"
@@ -27,8 +36,14 @@ Rails.application.routes.draw do
     resource :two_factor_auth, only: [ :show, :create, :destroy ]
   end
 
-  # 4. その他
+  # 4. 患者登録画面
+  resources :patients do
+    resources :lab_orders, shallow: true
+  end
+
+  # 5. その他
   root "top#index"
   get "signup/select", to: "pages#select_role", as: :select_role
   resources :patients
+  resources :doctors, only: [ :index, :new, :create ]
 end

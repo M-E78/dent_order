@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Myapp" %></title>
+    <title><%= content_for(:title) || "Dent-Order" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -17,9 +17,21 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="bg-slate-50">
+    <%# 1. ログイン時のみヘッダーを表示 %>
+    <%= render 'shared/header' if user_signed_in? %>
+
+    <%# 2. 通知メッセージ %>
+    <% if notice %>
+      <div class="bg-blue-50 border-b border-blue-200 text-blue-700 px-4 py-3 text-sm text-center">
+        <%= notice %>
+      </div>
+    <% end %>
+    
+    <%# 3. メインコンテンツ %>
+    <main>
+      <%= yield %>
+    </main>
   </body>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
+
 </html>

@@ -1,0 +1,2 @@
+module LabOrdersHelper
+end

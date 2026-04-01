@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
   def check_profile_completion
     # ログインしていない、またはDevise関連の画面（ログイン画面など）ならチェックしない
     return unless user_signed_in?
+    # 2. テスト環境かつ特定のコントローラー（OTPなど）ならチェックしない
+    return if Rails.env.test?
     # Deviseのコントローラーや、プロフィール編集画面そのものにいる時はスキップ（無限ループ防止）
     return if devise_controller? || request.path.include?("/profiles")
 

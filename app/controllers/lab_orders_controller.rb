@@ -3,6 +3,8 @@ class LabOrdersController < ApplicationController
 
   def new
     @lab_order = @patient.lab_orders.build
+    # ログインユーザーの名前をデフォルト値としてセット
+    @lab_order.doctor_name = current_user.name
   end
 
   def create

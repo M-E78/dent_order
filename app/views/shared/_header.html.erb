@@ -1,39 +1,37 @@
-<nav class="bg-white border-b border-slate-200 px-4 py-3 relative" x-data="{ open: false }">
+<nav class="bg-white border-b border-slate-200 px-4 py-3 relative">
   <div class="max-w-7xl mx-auto flex justify-between items-center">
     
     <%# ロゴ %>
     <%= link_to root_path, class: "text-xl font-bold text-blue-600 flex items-center gap-2" do %>
-      <span class="text-2xl">🦷</span> <span class="hidden sm:inline">Dent-Order</span>
+      <span class="text-2xl">🦷</span> Dent-Order
     <% end %>
 
-    <%# ハンバーガーボタン %>
-    <div class="relative">
-      <button @click="open = !open" 
-              class="flex items-center justify-center p-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition text-slate-700 border border-slate-200">
+    <%# 🌟 ここから Stimulus の範囲 %>
+    <div class="relative" 
+         data-controller="dropdown" 
+         data-action="click@window->dropdown#close"> <%# 👈 外側クリックで閉じる Stimulus の書き方 %>
+      
+      <%# ボタン %>
+      <button data-action="dropdown#toggle" 
+              class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 focus:outline-none">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
         </svg>
       </button>
 
-      <%# ドロップダウンメニュー（x-show="open" でクリック時のみ表示） %>
-      <div x-show="open" 
-           x-transition:enter="transition ease-out duration-100"
-           x-transition:enter-start="transform opacity-0 scale-95"
-           @click.away="open = false" 
-           class="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-2xl border border-slate-200 py-2 z-[100]"
-           style="display: none;">
+      <%# メニュー本体 %>
+      <div data-dropdown-target="menu" 
+           class="hidden absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-2xl border border-slate-200 py-2 z-[100]">
         
         <div class="px-4 py-2 border-b border-slate-50 mb-1">
           <p class="text-xs text-slate-400 font-bold uppercase">設定メニュー</p>
         </div>
 
-        <%= link_to "🏥 医院アカウント編集", edit_profile_path, class: "block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50" %>
-        <%= link_to "👨‍⚕️ 新規ドクター登録", doctors_path, class: "block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50" %>
+        <%= link_to "🏥 医院アカウント編集", edit_profile_path, class: "block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 transition" %>
+        <%= link_to "👨‍⚕️ ドクター管理", doctors_path, class: "block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 transition" %>
         
         <div class="border-t border-slate-100 mt-2 pt-2">
-          <%= button_to destroy_user_session_path, method: :delete, class: "w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50" do %>
-            🚪 ログアウト
-          <% end %>
+          <%= button_to "🚪 ログアウト", destroy_user_session_path, method: :delete, class: "w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition" %>
         </div>
       </div>
     </div>

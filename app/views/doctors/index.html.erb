@@ -1,2 +1,34 @@
-<h1>Doctors#index</h1>
-<p>Find me in app/views/doctors/index.html.erb</p>
+<div class="max-w-2xl mx-auto py-8 px-4">
+  <h1 class="text-2xl font-bold mb-6 text-slate-800">👨‍⚕️ ドクター管理</h1>
+
+  <%# 登録済みドクター一覧 %>
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 mb-8 overflow-hidden">
+    <table class="w-full text-left">
+      <thead class="bg-slate-50 border-b border-slate-200">
+        <tr>
+          <th class="px-6 py-3 text-sm font-semibold text-slate-600">名前</th>
+          <th class="px-6 py-3"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        <% @doctors.each do |doctor| %>
+          <tr>
+            <td class="px-6 py-4 text-slate-700 font-medium"><%= doctor.name %></td>
+            <td class="px-6 py-4 text-right">
+              <%= link_to "削除", doctor_path(doctor), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, class: "text-red-500 text-sm hover:underline" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <%# 新規登録フォーム %>
+  <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+    <h2 class="font-bold text-blue-800 mb-4 text-sm uppercase tracking-wider">新規ドクター追加</h2>
+    <%= form_with model: @doctor, class: "flex gap-3" do |f| %>
+      <%= f.text_field :name, placeholder: "例：歯 好き太郎", class: "flex-1 rounded-lg border-slate-300 focus:ring-blue-500 focus:border-blue-500" %>
+      <%= f.submit "登録", class: "bg-blue-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-blue-700 transition cursor-pointer" %>
+    <% end %>
+  </div>
+</div>

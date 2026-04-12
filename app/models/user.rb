@@ -1,10 +1,8 @@
 class User < ApplicationRecord
-  # 新規登録フォームから「歯科医院名」を受け取るための一時的な入れ物
-  attr_accessor :clinic_name
+  # 新規登録フォームから「歯科医院名」や「技工所名」を受け取るための一時的な入れ物
   attr_accessor :clinic_name, :lab_name
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :two_factor_authenticatable,  # 二段階認証を追加
+
+  devise :two_factor_authenticatable,
          :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          otp_secret_encryption_key: ENV["OTP_SECRET_ENCRYPTION_KEY"]
@@ -14,7 +12,13 @@ class User < ApplicationRecord
 
   # Userを通じて Clinic を保存できるようにする
   accepts_nested_attributes_for :clinic
+
+  # バリデーション
+  validates :name, presence: true
   validate :must_belong_to_either_clinic_or_lab
+
+  # 役割を定義（0: 管理者/院長, 1: 勤務医）
+  enum :role, { admin: 0, doctor: 1 }
 
   private
 

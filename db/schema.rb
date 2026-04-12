@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_01_104420) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_12_082847) do
   create_table "clinics", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "address"
@@ -40,6 +40,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_01_104420) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "jaw_type"
+    t.string "tooth_numbers"
+    t.string "treatment_details"
+    t.text "prosthesis_types"
+    t.text "prep_items"
     t.index ["patient_id"], name: "index_lab_orders_on_patient_id"
   end
 
@@ -78,6 +83,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_01_104420) do
     t.string "otp_secret"
     t.integer "consumed_timestep"
     t.boolean "otp_required_for_login"
+    t.integer "role", default: 0
     t.index ["clinic_id"], name: "index_users_on_clinic_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["lab_id"], name: "index_users_on_lab_id"

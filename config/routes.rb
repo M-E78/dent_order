@@ -45,5 +45,5 @@ Rails.application.routes.draw do
   root "top#index"
   get "signup/select", to: "pages#select_role", as: :select_role
   resources :patients
-  resources :doctors, only: [ :index, :new, :create ]
+  resources :doctors, only: [ :index, :new, :create, :destroy ]
 end

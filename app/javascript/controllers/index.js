@@ -9,3 +9,6 @@ application.register("dropdown", DropdownController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import ToothSelectionController from "./tooth_selection_controller"
+application.register("tooth-selection", ToothSelectionController)

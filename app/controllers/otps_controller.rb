@@ -1,7 +1,7 @@
 class OtpsController < ApplicationController
   # 1. ログイン前なので、ログイン必須チェックを外す
   skip_before_action :authenticate_user!, only: [ :new, :create ]
-  
+
   # 2. プロフィール登録チェックも、認証が終わるまでは外す
   # raise: false をつけておくと、万が一設定がなくてもエラーにならない
   skip_before_action :check_profile_completion, only: [ :new, :create ], raise: false

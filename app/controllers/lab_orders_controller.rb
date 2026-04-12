@@ -23,6 +23,6 @@ class LabOrdersController < ApplicationController
   end
 
   def lab_order_params
-    params.require(:lab_order).permit(:doctor_name, :menu_name, :material, :shade, :order_date, :set_date, :notes, :status)
+    params.require(:lab_order).permit(:doctor_name, :menu_name, :material, :shade, :order_date, :set_date, :notes, :status, :tooth_numbers)
   end
 end

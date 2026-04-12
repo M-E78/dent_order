@@ -1,0 +1,13 @@
+<%# app/views/lab_orders/_tooth_checkbox.html.erb %>
+<label class="relative cursor-pointer group">
+  <%# 複数選択できるように tooth_numbers[] 配列として送る %>
+  <%= f.check_box :tooth_numbers, { multiple: true, class: "hidden peer" }, fdi, nil %>
+  
+  <div class="w-8 h-10 md:w-10 md:h-12 border border-slate-200 rounded-md flex flex-col items-center justify-center transition-all duration-150
+              bg-white text-slate-400
+              peer-checked:bg-blue-600 peer-checked:border-blue-600 peer-checked:text-white
+              hover:border-blue-300 hover:bg-blue-50">
+    <span class="text-[9px] font-bold leading-none mb-1"><%= fdi %></span>
+    <span class="text-sm md:text-base leading-none">🦷</span>
+  </div>
+</label>

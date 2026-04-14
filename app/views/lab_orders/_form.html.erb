@@ -8,15 +8,34 @@
       <%# 左カラム：歯式チャートエリア (col-span-5)  %>
       <%# ========================================== %>
       <div class="col-span-1 lg:col-span-5 p-6 lg:p-8 bg-slate-50/30 relative" data-controller="tooth-selection">
+        <%# 発行日とセット日 %>
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div>
+            <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2">発行日</h3>
+            <%= f.date_field :order_date, class: "w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2" %>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2">セット予定日</h3>
+            <%= f.date_field :set_date, class: "w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2" %>
+          </div>
+        </div>
           <%# 隠しフォーム（Railsに送るデータの箱） %>
           <%= f.hidden_field :tooth_numbers, data: { tooth_selection_target: "input" } %>
 
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center justify-between mb-6">
           <h2 class="text-lg font-bold text-slate-800">歯式の選択</h2>
             
-          <button type="button" class="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 hover:bg-blue-200 rounded-full font-bold text-sm transition-all shadow-sm active:scale-95">
-            <span class="text-lg leading-none">🎤</span> 音声入力
-          </button>
+          <div class="flex gap-2">
+            <%# 全顎・クリアボタン %>
+            <button type="button" data-action="click->tooth-selection#selectUpper" class="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-lg text-xs font-bold transition-all shadow-sm">上顎</button>
+            <button type="button" data-action="click->tooth-selection#selectLower" class="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-lg text-xs font-bold transition-all shadow-sm">下顎</button>
+            <button type="button" data-action="click->tooth-selection#clearAll" class="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-lg text-xs font-bold transition-all shadow-sm">クリア</button>
+            
+            <%# 音声ボタン %>
+            <button type="button" class="flex items-center gap-1 px-3 py-1.5 bg-blue-100 text-blue-700 hover:bg-blue-200 rounded-lg font-bold text-xs transition-all shadow-sm">
+              <span>🎤</span> 音声
+            </button>
+          </div>
         </div>
 
         <%# NEW: 十字の歯式サマリー（ターゲット追加版） %>
@@ -49,7 +68,7 @@
         <%# SVG配置エリア %>
 
         <div class="w-full flex justify-center items-center min-h-[450px]">
-          <svg class="w-full max-w-sm mx-auto drop-shadow-sm" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 290 371">      
+          <svg class="w-full max-w-[340px] h-auto mx-auto drop-shadow-sm" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 290 371">
             <title>Human Dental Arches (Permanent)</title>
             <defs>
               <marker refX="0" refY="0" orient="auto" overflow="visible">
@@ -291,87 +310,147 @@
           </svg>
 
             <hr class="border-slate-100">
-          <%# ここに昨日作成したSVGを丸ごと貼ります。
-              例: <path class="..." data-tooth-selection-target="tooth" data-fdi="11" data-action="click->tooth-selection#toggle" d="..." />
-          %>
 
           </div>
       </div>
 
 
       <%# ========================================== %>
-      <%# 右カラム：処置内容フォームエリア (col-span-7) %>
+      <%# 右カラム：処置内容の入力エリア (col-span-7)  %>
       <%# ========================================== %>
-      <div class="col-span-1 lg:col-span-7 p-6 lg:p-8 space-y-8">
+     <div class="col-span-1 lg:col-span-7 p-6 lg:p-8" data-controller="form-tabs">
+        <h2 class="text-lg font-bold text-slate-800 mb-4">処置内容の入力</h2> <%# mb-6 -> mb-4に縮小 %>
+
+        <%#  1. タブ切り替えボタン %>
+        <div class="flex p-1 mb-6 bg-slate-100 rounded-xl shadow-inner"> 
+          <button type="button" data-action="click->form-tabs#switch" data-form-tabs-target="tab" data-tab-name="crown" class="flex-1 py-2 text-sm font-bold text-blue-600 bg-white rounded-lg shadow-sm transition-all">Crown / Bridge</button>
+          <button type="button" data-action="click->form-tabs#switch" data-form-tabs-target="tab" data-tab-name="denture" class="flex-1 py-2 text-sm font-bold text-slate-500 hover:text-slate-700 rounded-lg transition-all">Denture</button>
+          <button type="button" data-action="click->form-tabs#switch" data-form-tabs-target="tab" data-tab-name="other" class="flex-1 py-2 text-sm font-bold text-slate-500 hover:text-slate-700 rounded-lg transition-all">Others</button>
+        </div>
+
+        <%#  2. タブの中身（パネル） %>
+        <div class="min-h-[350px]">
+          
+          <%# --- パネルA: Crown --- %>
+          <div data-form-tabs-target="panel" data-panel-name="crown" class="space-y-6 block">
+            <%# 保険補綴 %>
+            <div>
+              <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2 border-b border-slate-200 pb-1">保険補綴</h3>
+              <div class="flex flex-wrap gap-2">
+                <% ["メタルコア", "TEC", "インレー", "FMC", "前装冠", "保険ブリッジ", "ジャケットCr", "CAD/CAM", "CAD/CAM冠"].each do |item| %>
+                  <label class="cursor-pointer">
+                    <%= f.check_box :prosthesis_types, { multiple: true, class: "peer hidden" }, item, nil %>
+                    <div class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 hover:bg-slate-50 transition-all select-none"><%= item %></div>
+                  </label>
+                <% end %>
+              </div>
+            </div>
+
+            <%# 自費補綴 %>
+            <div>
+              <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2 border-b border-slate-200 pb-1">自費補綴</h3>
+              <div class="flex flex-wrap gap-2">
+                <% ["ファイバーコア", "プロビジョナル", "PFM", "PFMブリッジ", "ゴールドインレー", "ゴールドCr", "ゴールドブリッジ", "e.maxインレー", "e.max Cr", "e.maxレイヤード", "e.maxブリッジ", "zirインレー", "zir Cr", "zir Crブリッジ", "PFZ", "PFZブリッジ", "IP上部構造(MZC)", "IP上部構造(PFZ)"].each do |item| %>
+                  <label class="cursor-pointer">
+                    <%= f.check_box :prosthesis_types, { multiple: true, class: "peer hidden" }, item, nil %>
+                    <div class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 font-medium peer-checked:bg-amber-50 peer-checked:border-amber-500 peer-checked:text-amber-700 hover:bg-slate-50 transition-all select-none"><%= item %></div>
+                  </label>
+                <% end %>
+              </div>
+            </div>
+
+            <%# 金属とシェード (2カラムで並べる) %>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2 border-b border-slate-200 pb-1">使用金属</h3>
+                <%= f.select :metal_type, ["指定なし", "シルバー", "ゴールド(20k)", "ゴールド(18K)", "ゴールド(16k)", "白金加金(PGA)", "コバルトクロム", "チタン", "パラジウム"], {}, class: "w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2" %>
+              </div>
+              <div>
+                <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2 border-b border-slate-200 pb-1">シェード</h3>
+                <%= f.select :shade, ["指定なし", "W0", "W1", "W2", "W3", "A1", "A2", "A3", "A3.5", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D2", "D3", "D4"], {}, class: "w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2" %>
+              </div>
+            </div>
+          </div>
+
+          <%# --- パネルB: Denture (初期状態は非表示) --- %>
+          <div data-form-tabs-target="panel" data-panel-name="denture" class="space-y-6 hidden">
+            <div>
+              <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2 border-b border-slate-200 pb-1">保険義歯</h3>
+              <div class="flex flex-wrap gap-2">
+                <% ["エーカース(ワイヤー)", "ダブルエーカース(ワイヤー)", "エーカース(キャスト)", "ダブルエーカース(キャスト)", "部分床義歯", "全部床義歯"].each do |item| %>
+                  <label class="cursor-pointer">
+                    <%= f.check_box :prosthesis_types, { multiple: true, class: "peer hidden" }, item, nil %>
+                    <div class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 hover:bg-slate-50 transition-all select-none"><%= item %></div>
+                  </label>
+                <% end %>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2 border-b border-slate-200 pb-1">自費義歯</h3>
+              <div class="flex flex-wrap gap-2">
+                <% ["金属床義歯(部分床)", "金属床義歯(全部床)", "ノンクラスプデンチャー"].each do |item| %>
+                  <label class="cursor-pointer">
+                    <%= f.check_box :prosthesis_types, { multiple: true, class: "peer hidden" }, item, nil %>
+                    <div class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 font-medium peer-checked:bg-amber-50 peer-checked:border-amber-500 peer-checked:text-amber-700 hover:bg-slate-50 transition-all select-none"><%= item %></div>
+                  </label>
+                <% end %>
+              </div>
+            </div>
+
+            <%# 🌟 Dentureにも金属とシェードを追加 %>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2 border-b border-slate-200 pb-1">使用金属</h3>
+                <%= f.select :metal_type, ["指定なし", "シルバー", "ゴールド(20k)", "ゴールド(18K)", "ゴールド(16k)", "白金加金(PGA)", "コバルトクロム", "チタン", "パラジウム"], {}, class: "w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2" %>
+              </div>
+              <div>
+                <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2 border-b border-slate-200 pb-1">シェード</h3>
+                <%= f.select :shade, ["指定なし", "W0", "W1", "W2", "W3", "A1", "A2", "A3", "A3.5", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D2", "D3", "D4"], {}, class: "w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2" %>
+              </div>
+            </div>
+          </div>
+
+          <%# --- パネルC: Others (初期状態は非表示) --- %>
+          <div data-form-tabs-target="panel" data-panel-name="other" class="space-y-6 hidden">
+            <div>
+              <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2 border-b border-slate-200 pb-1">口腔内装置</h3>
+              <div class="flex flex-wrap gap-2">
+                <% ["マウスピース(ソフト)", "マウスピース(ハード)", "スリープスプリント(SAS)", "スポーツマウスガード", "リテーナー", "ホワイトニングトレー"].each do |item| %>
+                  <label class="cursor-pointer">
+                    <%= f.check_box :prosthesis_types, { multiple: true, class: "peer hidden" }, item, nil %>
+                    <div class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 font-medium peer-checked:bg-emerald-50 peer-checked:border-emerald-500 peer-checked:text-emerald-700 hover:bg-slate-50 transition-all select-none"><%= item %></div>
+                  </label>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <%# 🌟 3. 全モード共通エリア（準備物・備考など） %>
+        <div class="mt-6 pt-4 border-t border-slate-200 space-y-4">
+          <div>
+            <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2">準備的製作物</h3>
+            <div class="flex flex-wrap gap-2">
+              <% ["個人トレー(close)", "個人トレー(open)", "咬合床"].each do |item| %>
+                <label class="cursor-pointer">
+                  <%= f.check_box :prep_items, { multiple: true, class: "peer hidden" }, item, nil %>
+                  <div class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 font-medium peer-checked:bg-slate-800 peer-checked:border-slate-800 peer-checked:text-white hover:bg-slate-50 transition-all select-none"><%= item %></div>
+                </label>
+              <% end %>
+            </div>
+          </div>
+          
+          <div>
+             <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2">処置詳細・備考</h3>
+             <%= f.text_area :treatment_details, rows: 2, class: "w-full bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2", placeholder: "その他、技工士への連絡事項など" %> <%# rows: 3 -> 2 %>
+          </div>
+        </div>
         
-        <div class="border-b border-slate-100 pb-4">
-          <h2 class="text-xl font-bold text-slate-800">処置内容の入力（補綴）</h2>
-        </div>
-
-        <%# 1. 処置詳細（フリーテキスト） %>
-        <div>
-          <%= f.label :treatment_details, "処置詳細", class: "block text-sm font-bold text-slate-700 mb-2" %>
-          <%= f.text_field :treatment_details, placeholder: "例：クラウン装着（12番）", class: "w-full rounded-xl border-slate-300 bg-slate-50 focus:bg-white focus:ring-blue-500 focus:border-blue-500 transition-colors" %>
-        </div>
-
-        <%# 2. 補綴物の選択（チップ型全部出しUI） %>
-        <div>
-          <label class="block text-sm font-bold text-slate-700 mb-3">補綴物の選択</label>
-          <div class="flex flex-wrap gap-2">
-            <% ["クラウン (FCK, CAD, MB, emax)", "インレー (パラ, CAD, emax, gold)", "アンレー", "ブリッジ", "ポンティック"].each do |item| %>
-              <label class="cursor-pointer group">
-                <%= f.check_box :prosthesis_types, { multiple: true, class: "hidden peer" }, item, nil %>
-                <div class="px-4 py-2 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-500 bg-white
-                            peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700
-                            group-hover:border-slate-300 transition-all select-none">
-                  <%= item %>
-                </div>
-              </label>
-            <% end %>
-          </div>
-        </div>
-
-        <%# 3. 準備物（可愛いアイコン付きチェックボックス） %>
-        <div>
-          <label class="block text-sm font-bold text-slate-700 mb-3">準備物</label>
-          <div class="grid grid-cols-2 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
-            <% [
-              { name: "個人トレー", icon: "🥽" }, { name: "連合印象", icon: "📦" }, { name: "義歯試適", icon: "🦷" },
-              { name: "咬合採得", icon: "👄" }, { name: "仮歯（テック）", icon: "🛠️" }, { name: "試適", icon: "🔍" },
-              { name: "義歯", icon: "🧓" }
-            ].each do |item| %>
-              <label class="flex items-center gap-3 cursor-pointer group">
-                <%= f.check_box :prep_items, { multiple: true, class: "w-5 h-5 text-blue-600 rounded-md border-slate-300 focus:ring-blue-500 cursor-pointer" }, item[:name], nil %>
-                <span class="text-sm font-bold text-slate-600 group-hover:text-blue-600 transition-colors select-none">
-                  <span class="mr-1 opacity-80"><%= item[:icon] %></span><%= item[:name] %>
-                </span>
-              </label>
-            <% end %>
-          </div>
-        </div>
-
-        <%# 4. 義歯設計（アコーディオン風プレースホルダー） %>
-        <div class="border border-slate-200 rounded-xl overflow-hidden">
-          <summary class="flex justify-between items-center bg-slate-50 p-4 cursor-pointer hover:bg-slate-100 transition-colors font-bold text-slate-700 list-none [&::-webkit-details-marker]:hidden">
-            義歯設計を追加する
-            <span class="text-slate-400">▼</span>
-          </summary>
-          <%# 中身は今後のタスクで実装 %>
-        </div>
-
-        <%# 5. 備考 %>
-        <div>
-          <%= f.label :notes, "備考", class: "block text-sm font-bold text-slate-700 mb-2" %>
-          <%= f.text_area :notes, rows: 3, placeholder: "その他、技工士への連絡事項など", class: "w-full rounded-xl border-slate-300 focus:ring-blue-500 focus:border-blue-500" %>
-        </div>
-
-        <%# 送信アクション %>
-        <div class="pt-6 flex items-center justify-end gap-4 border-t border-slate-100">
-          <%= link_to "キャンセル", root_path, class: "px-6 py-3 text-slate-500 hover:text-slate-700 font-bold transition-colors" %>
-          <%= f.submit "決定（保存）", class: "bg-blue-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 hover:shadow-blue-300 transition-all cursor-pointer active:scale-95" %>
+        <div class="mt-2 p-2 bg-slate-50 border-t border-slate-200 flex justify-end gap-2 rounded-b-3xl">
+          <%= link_to "キャンセル", :back, class: "px-6 py-3 text-slate-500 font-bold hover:bg-slate-200 rounded-xl transition-all" %>
+          <%= f.submit "決定（保存）", class: "px-8 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-sm hover:bg-blue-700 transition-all active:scale-95" %>
         </div>
 
       </div>
-    </div>
-  </div>
 <% end %>

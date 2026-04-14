@@ -1,12 +1,10 @@
-<div class="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-7xl mx-auto">
+<div class="bg-slate-50 py-2 px-4 lg:px-8 h-full">
+  <div class="max-w-[1600px] mx-auto">
     
     <%# ヘッダー部分 %>
-    <div class="mb-6 px-2 flex justify-between items-end">
-      <div>
-        <h1 class="text-2xl font-bold text-slate-800">技工指示書の新規作成</h1>
-        <p class="text-slate-500 mt-2 font-medium">患者：<%= @patient.name %> 様（カルテNo: <%= @patient.chart_number %>）</p>
-      </div>
+    <div class="mb-2 flex items-baseline gap-4">
+      <h1 class="text-xl font-bold text-slate-800">技工指示書の新規作成</h1>
+      <p class="text-sm font-medium text-slate-500">患者：<%= @patient.name %> 様（カルテNo: <%= @patient.chart_number %>）</p>
     </div>
 
     <%# パーシャル呼び出し（ここで _form.html.erb が横いっぱいに広がります） %>

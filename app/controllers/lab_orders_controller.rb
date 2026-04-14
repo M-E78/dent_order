@@ -2,7 +2,8 @@ class LabOrdersController < ApplicationController
   before_action :set_patient, only: [ :new, :create ]
 
   def new
-    @lab_order = @patient.lab_orders.build
+    # 1回だけbuildし、同時に初期値（今日の日付）をセット
+    @lab_order = @patient.lab_orders.build(order_date: Date.current)
     # ログインユーザーの名前をデフォルト値としてセット
     @lab_order.doctor_name = current_user.name
   end

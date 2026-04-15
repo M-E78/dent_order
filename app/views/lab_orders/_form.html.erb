@@ -32,9 +32,18 @@
             <button type="button" data-action="click->tooth-selection#clearAll" class="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-lg text-xs font-bold transition-all shadow-sm">クリア</button>
             
             <%# 音声ボタン %>
-            <button type="button" class="flex items-center gap-1 px-3 py-1.5 bg-blue-100 text-blue-700 hover:bg-blue-200 rounded-lg font-bold text-xs transition-all shadow-sm">
-              <span>🎤</span> 音声
-            </button>
+            <div data-controller="voice-recognition">
+  
+              <button type="button" 
+                      data-action="click->voice-recognition#start" 
+                      class="flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-all">
+                <span class="text-sm">🎤</span> 音声
+              </button>
+
+              <%# 状況を表示するラベル %>
+              <span data-voice-recognition-target="status" class="text-xs text-slate-400 ml-2">待機中</span>
+
+            </div>
           </div>
         </div>
 
@@ -447,10 +456,22 @@
           </div>
         </div>
         
-        <div class="mt-2 p-2 bg-slate-50 border-t border-slate-200 flex justify-end gap-2 rounded-b-3xl">
-          <%= link_to "キャンセル", :back, class: "px-6 py-3 text-slate-500 font-bold hover:bg-slate-200 rounded-xl transition-all" %>
-          <%= f.submit "決定（保存）", class: "px-8 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-sm hover:bg-blue-700 transition-all active:scale-95" %>
-        </div>
+        <div class="flex items-center justify-end gap-4 mt-5 pt-5 border-t border-slate-100">
+  
+            <%# 担当ドクター選択（新規作成時のみデフォルトを自分にする） %>
+            <div class="flex items-center gap-2">
+              <%= f.label :user_id, "担当:", class: "text-xs font-bold text-slate-500" %>
+              <%= f.collection_select :user_id, User.all, :id, :name, 
+                  { selected: f.object.new_record? ? current_user.id : f.object.user_id }, 
+                  { class: "text-sm border-slate-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 py-1" } 
+              %>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <%= link_to "キャンセル", patient_path(@patient), class: "text-sm text-slate-500 hover:text-slate-700" %>
+              <%= f.submit "決定 (保存)", class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-bold shadow-md shadow-blue-200" %>
+            </div>
+          </div>
 
       </div>
 <% end %>

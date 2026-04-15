@@ -1,4 +1,7 @@
 class LabOrdersController < ApplicationController
+  # analyze_voiceアクションだけCSRFチェックを外す
+  protect_from_forgery with: :null_session, only: [ :analyze_voice ]
+
   before_action :set_patient, only: [ :new, :create ]
 
   def new
@@ -14,6 +17,22 @@ class LabOrdersController < ApplicationController
       redirect_to root_path, notice: "指示書を作成しました。"
     else
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def analyze_voice
+    # ブラウザから送られてきたテキストを取得
+    text = params[:text]
+
+    if text.present?
+      # 昨日作った Service を呼び出して解析！
+      parser = OpenaiParserService.new(text)
+      result = parser.parse
+
+      # 解析結果（JSON）をそのままブラウザ（JS）に返す
+      render json: result
+    else
+      render json: { error: "テキストが空です" }, status: :bad_request
     end
   end
 

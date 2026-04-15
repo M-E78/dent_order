@@ -15,3 +15,6 @@ application.register("hello", HelloController)
 
 import ToothSelectionController from "./tooth_selection_controller"
 application.register("tooth-selection", ToothSelectionController)
+
+import VoiceRecognitionController from "./voice_recognition_controller"
+application.register("voice-recognition", VoiceRecognitionController)

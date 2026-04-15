@@ -41,7 +41,14 @@ Rails.application.routes.draw do
     resources :lab_orders, shallow: true
   end
 
-  # 5. その他
+  # 5. openai_parser_service
+  resources :lab_orders do
+  collection do
+    post :analyze_voice # 声の解析用ルートを追加
+  end
+end
+
+  # 6. その他
   root "top#index"
   get "signup/select", to: "pages#select_role", as: :select_role
   resources :patients

@@ -68,7 +68,7 @@ export default class extends Controller {
 
   // 🌟 上顎をすべて選択
   selectUpper() {
-    const upperFdis = ["11","12","13","14","15","16","17","18", "21","22","23","24","25","26","27","28"];
+    const upperFdis = ["11","12","13","14","15","16","17", "21","22","23","24","25","26","27"];
     upperFdis.forEach(fdi => this.selectedTeeth.add(fdi));
     this.ponticTeeth.clear(); // 全顎選択時はポンティックをリセット
     this.updateInputAndSummary();
@@ -76,7 +76,7 @@ export default class extends Controller {
 
   // 🌟 下顎をすべて選択
   selectLower() {
-    const lowerFdis = ["31","32","33","34","35","36","37","38", "41","42","43","44","45","46","47","48"];
+    const lowerFdis = ["31","32","33","34","35","36","37", "41","42","43","44","45","46","47"];
     lowerFdis.forEach(fdi => this.selectedTeeth.add(fdi));
     this.ponticTeeth.clear();
     this.updateInputAndSummary();

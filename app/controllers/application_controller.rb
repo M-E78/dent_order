@@ -2,8 +2,18 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :check_profile_completion
 
+  # 🌟 【追加】Deviseのコントローラーが動く時だけ、パラメータ許可のメソッドを呼ぶ
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
+
+  protected
+
+  # 🌟 【追加】sign_up（新規登録）の時に、name, clinic_name, lab_name の受け取りを許可する
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [ :name, :clinic_name, :lab_name ])
+  end
 
   private
 
@@ -19,7 +29,6 @@ class ApplicationController < ActionController::Base
     return if Rails.env.test?
     # Deviseのコントローラーや、プロフィール編集画面そのものにいる時はスキップ（無限ループ防止）
     return if devise_controller? || request.path.include?("/profiles")
-
 
     # organization を定義
     organization = current_user.clinic || current_user.lab

@@ -7,7 +7,7 @@ class Clinic < ApplicationRecord
   accepts_nested_attributes_for :users
 
   validates :name, presence: true
-  validates :postal_code, presence: true
-  validates :address, presence: true
-  validates :phone_number, presence: true
+  validates :postal_code, presence: true, on: :update
+  validates :address, presence: true, on: :update
+  validates :phone_number, presence: true, on: :update
 end

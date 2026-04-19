@@ -43,6 +43,19 @@ class LabOrdersController < ApplicationController
   end
 
   def lab_order_params
-    params.require(:lab_order).permit(:doctor_name, :menu_name, :material, :shade, :order_date, :set_date, :notes, :status, :tooth_numbers)
+  params.require(:lab_order).permit(
+    :order_date,          # 発行日
+    :set_date,            # セット日
+    :tooth_numbers,       # 部位（歯の番号）
+    :user_id,             # 担当Dr
+    :material,
+    :metal_type,          # 使用金属
+    :shade,               # シェード
+    :pontic_form,         # ポンティック
+    :metal_type,          # 義歯の金属
+    :treatment_details,   # 備考
+    prosthesis_types: [], # 製作物（重要：配列なので [] が必要！）
+    prep_items: []        # 準備物（同様に [] が必要！）
+  )
   end
 end

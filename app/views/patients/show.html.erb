@@ -16,42 +16,54 @@
     <% if @lab_orders.any? %>
       <div class="space-y-4">
         <% @lab_orders.each do |order| %>
-          <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:border-blue-300 transition">
-            <div class="flex justify-between items-start mb-4">
+          <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm mb-6">
+            
+            <%# 1. ヘッダー部分：発行日とセット日を左側に統一して配置 %>
+            <div class="flex justify-start items-start gap-12 mb-6 pb-4 border-b border-slate-50">
+              <%# 発行日 %>
               <div>
-                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded mb-2 inline-block">
-                  <%= order.status_text %>
-                </span>
-                <h3 class="text-lg font-bold text-slate-800"><%= order.menu_name %></h3>
+                <p class="text-xs text-slate-400 font-bold mb-1">発行日</p>
+                <p class="text-lg font-bold text-blue-600">
+                  <%= order.order_date || order.created_at.strftime("%Y/%m/%d") %>
+                </p>
               </div>
-              <div class="text-right">
-                <p class="text-sm text-slate-500">セット日</p>
-                <p class="text-lg font-bold text-blue-600"><%= order.set_date || "未定" %></p>
+
+              <%# セット日（フォントサイズを発行日と統一） %>
+              <div>
+                <p class="text-xs text-slate-400 font-bold mb-1">セット日</p>
+                <p class="text-lg font-bold text-blue-600">
+                  <%= order.set_date || "---" %>
+                </p>
               </div>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm border-t border-slate-50 pt-4">
+            <%# 2. メイングリッド（担当医、製作物など） %>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-sm mb-2">
               <div>
-                <p class="text-slate-500">担当医</p>
-                <p class="font-medium"><%= order.doctor_name %></p>
+                <p class="text-xs text-slate-400 mb-1">担当医</p>
+                <p class="font-bold text-slate-700"><%= order.user&.name || "---" %></p>
               </div>
               <div>
-                <p class="text-slate-500">マテリアル</p>
-                <p class="font-medium"><%= order.material %></p>
+                <p class="text-xs text-slate-400 mb-1">製作物</p>
+                <p class="font-bold text-slate-800">
+                  <%= order.prosthesis_types&.reject(&:blank?)&.join(", ") || "未入力" %>
+                </p>
               </div>
               <div>
-                <p class="text-slate-500">シェード</p>
-                <p class="font-medium"><%= order.shade %></p>
+                <p class="text-xs text-slate-400 mb-1">メタル</p>
+                <p class="font-bold text-slate-700"><%= order.material || order.metal_type || "指定なし" %></p>
               </div>
               <div>
-                <p class="text-slate-500">発行日</p>
-                <p class="font-medium"><%= order.created_at.strftime("%Y/%m/%d") %></p>
+                <p class="text-xs text-slate-400 mb-1">シェード</p>
+                <p class="font-bold text-slate-700"><%= order.shade || "指定なし" %></p>
               </div>
             </div>
 
-            <% if order.notes.present? %>
-              <div class="mt-4 p-3 bg-slate-50 rounded-lg text-sm text-slate-700 italic">
-                「<%= order.notes %>」
+            <%# 3. 備考欄（存在する場合のみ） %>
+            <% if order.treatment_details.present? %>
+              <div class="mt-4 p-3 bg-slate-50 rounded-lg">
+                <p class="text-xs text-slate-400 mb-1">備考</p>
+                <p class="text-sm text-slate-600"><%= order.treatment_details %></p>
               </div>
             <% end %>
           </div>

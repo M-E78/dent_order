@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_12_082847) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_19_095353) do
   create_table "clinics", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "address"
@@ -45,7 +45,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_12_082847) do
     t.string "treatment_details"
     t.text "prosthesis_types"
     t.text "prep_items"
+    t.string "pontic_form"
+    t.bigint "user_id"
+    t.string "metal_type"
     t.index ["patient_id"], name: "index_lab_orders_on_patient_id"
+    t.index ["user_id"], name: "index_lab_orders_on_user_id"
   end
 
   create_table "labs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -92,6 +96,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_12_082847) do
 
   add_foreign_key "doctors", "clinics"
   add_foreign_key "lab_orders", "patients"
+  add_foreign_key "lab_orders", "users"
   add_foreign_key "patients", "clinics"
   add_foreign_key "users", "clinics"
   add_foreign_key "users", "labs"

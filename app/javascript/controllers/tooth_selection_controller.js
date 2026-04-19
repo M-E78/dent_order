@@ -37,21 +37,104 @@ export default class extends Controller {
     this.refreshStyles();
   }
 
-  // 🌟 AIの結果を反映（ここにカッコのエラーがありました）
-  applyVoiceResults(results) {
-    console.log("歯式図に反映中...", results)
-    results.forEach(item => {
+  // AIの結果を反映
+  // AIの結果を反映
+  applyVoiceResults(data) {
+    console.log("歯式図に反映中...", data)
+
+    // 1. 歯の選択をリセット
+    this.clearAll();
+
+    // 2. チェックボックスのリセット
+    document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach((input) => {
+      input.checked = false;
+    });
+
+    // 🌟 【新規】プルダウン（セレクトボックス）のリセット
+    document.querySelectorAll('select').forEach((select) => {
+      select.value = "指定なし"; // 初期値に戻す
+    });
+
+    // 🌟🌟🌟 復活させた「歯を塗る処理」 🌟🌟🌟
+    const teethList = Array.isArray(data) ? data : (data.teeth || []);
+    teethList.forEach(item => {
       const fdi = String(item.fdi)
-      const type = item.type // "normal" or "pontic"
-      if (type === "pontic") {
-        this.selectedTeeth.delete(fdi)
+      if (item.type === "pontic") {
         this.ponticTeeth.add(fdi)
       } else {
-        this.ponticTeeth.delete(fdi)
         this.selectedTeeth.add(fdi)
       }
     })
     this.updateInputAndSummary();
+    // 🌟🌟🌟 復活ここまで 🌟🌟🌟
+
+    // 3. 製作物（チェックボックス）の選択
+    if (data.product) {
+      this.selectProduct(data.product)
+    }
+
+    // 🌟 【新規】シェード（プルダウン）の選択
+    if (data.shade) {
+      // name属性に 'shade' が含まれるselectタグを探す
+      const shadeSelect = document.querySelector('select[name*="[shade]"]')
+      if (shadeSelect) {
+        shadeSelect.value = data.shade
+        console.log(`✅ シェードを ${data.shade} に設定しました`)
+      }
+    }
+
+    // 🌟 【新規】ポンティック形態（プルダウン）の選択
+    if (data.pontic_form) {
+      // name属性に 'pontic_form' が含まれるselectタグを探す
+      const ponticSelect = document.querySelector('select[name*="[pontic_form]"]')
+      if (ponticSelect) {
+        ponticSelect.value = data.pontic_form
+        console.log(`✅ ポンティック形態を ${data.pontic_form} に設定しました`)
+      }
+    }
+  }
+
+  // 🌟 超強力版：製作物（FMCなど）のチェックを入れるメソッド
+  selectProduct(productName) {
+    console.log(`🔍 製作物「${productName}」を探しています...`)
+
+    // 作戦1：チェックボックスの value 自体に "FMC" などが入っているか探す
+    const inputs = Array.from(document.querySelectorAll('input[type="checkbox"]'))
+    const targetInput = inputs.find(input => input.value === productName)
+
+    if (targetInput) {
+      targetInput.checked = true
+      console.log("✅ [作戦1成功] valueが一致するチェックボックスを見つけました！")
+      return // 見つけたらここで終了
+    }
+
+    // 作戦2：画面のラベルの文字（FMCなど）を探す
+    const labels = Array.from(document.querySelectorAll('label'))
+    const targetLabel = labels.find(label => label.textContent.trim().includes(productName))
+
+    if (targetLabel) {
+      // パターンA： labelの for 属性でIDが指定されている場合
+      const checkboxId = targetLabel.getAttribute('for')
+      if (checkboxId) {
+        const checkbox = document.getElementById(checkboxId)
+        if (checkbox) {
+          checkbox.checked = true
+          console.log("✅ [作戦2-A成功] labelのfor属性から見つけました！")
+          return
+        }
+      }
+
+      // パターンB： labelの中にinputタグが包まれている場合（<label><input>FMC</label>）
+      const nestedCheckbox = targetLabel.querySelector('input[type="checkbox"]')
+      if (nestedCheckbox) {
+        nestedCheckbox.checked = true
+        console.log("✅ [作戦2-B成功] labelの中にあるチェックボックスを見つけました！")
+        return
+      }
+    }
+
+    // どこを探しても見つからなかった場合
+    console.warn(`❌ 画面上に「${productName}」というチェックボックスが見つかりませんでした。`)
   }
 
   toggle(event) {

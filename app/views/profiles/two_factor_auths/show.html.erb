@@ -7,7 +7,7 @@
         <span class="mr-2">🛡️</span> 二段階認証は現在「有効」です
       </div>
       <div class="text-center">
-        <%= button_to "二段階認証を解除する", profiles_two_factor_auth_path, method: :delete, class: "text-sm text-red-500 hover:text-red-700 underline" %>
+        <%= button_to "二段階認証を解除する",two_factor_auth_path, method: :delete, class: "text-sm text-red-500 hover:text-red-700 underline" %>
       </div>
     <% else %>
       <p class="text-slate-600 mb-6 text-sm text-center">
@@ -18,7 +18,7 @@
         <%= @qrcode.html_safe %>
       </div>
 
-      <%= form_with url: profiles_two_factor_auth_path, method: :post, local: true, class: "space-y-4" do |f| %>
+      <%= form_with url: two_factor_auth_path, method: :post, local: true, class: "space-y-4" do |f| %>
         <div>
           <%= f.label :otp_attempt, "認証コード（6桁）", class: "block text-sm font-bold text-slate-700 mb-1" %>
           <%= f.text_field :otp_attempt, 

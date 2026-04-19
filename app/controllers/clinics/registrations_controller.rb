@@ -14,6 +14,7 @@ class Clinics::RegistrationsController < Devise::RegistrationsController
       :email,
       :password,
       :password_confirmation,
+      :clinic_name,
       clinic_attributes: [ :name, :address, :phone_number ]
     )
   end

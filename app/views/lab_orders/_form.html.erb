@@ -369,14 +369,24 @@
             </div>
 
             <%# 金属とシェード (2カラムで並べる) %>
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2 border-b border-slate-200 pb-1">使用金属</h3>
-                <%= f.select :metal_type, ["指定なし", "シルバー", "ゴールド(20k)", "ゴールド(18K)", "ゴールド(16k)", "白金加金(PGA)", "コバルトクロム", "チタン", "パラジウム"], {}, class: "w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2" %>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              
+              <%# 1列目：使用金属 %>
+              <div class="field">
+                <%= f.label :material, "使用金属", class: "block text-sm font-medium text-gray-700 mb-1" %>
+                <%= f.select :material, ["指定なし", "シルバー", "金パラ", "コバルトクロム", "チタン", "ゴールド(16K)", "ゴールド(18K)", "ゴールド(20K)", "白金加金(PGA)"], {}, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-3" %>
               </div>
-              <div>
-                <h3 class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2 border-b border-slate-200 pb-1">シェード</h3>
-                <%= f.select :shade, ["指定なし", "W0", "W1", "W2", "W3", "A1", "A2", "A3", "A3.5", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D2", "D3", "D4"], {}, class: "w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2" %>
+
+              <%# 2列目：シェード %>
+              <div class="field">
+                <%= f.label :shade, "シェード", class: "block text-sm font-medium text-gray-700 mb-1" %>
+                <%= f.select :shade, ["指定なし", "A1", "A2", "A3", "A3.5", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D2", "D3", "D4", "W0", "W1", "W2", "W3"], {}, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-3" %>
+              </div>
+
+              <%# 3列目：ポンティック形態 %>
+              <div class="field">
+                <%= f.label :pontic_form, "ポンティック形態", class: "block text-sm font-medium text-gray-700 mb-1" %>
+                <%= f.select :pontic_form, ["指定なし", "リッジラップ", "オベイト", "離底型", "船底型", "船底型"], {}, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-3" %>
               </div>
             </div>
           </div>

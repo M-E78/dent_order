@@ -1,5 +1,6 @@
 class LabOrder < ApplicationRecord
   belongs_to :patient
+  belongs_to :user, optional: true
 
   # 複数選択のチェックボックスデータを配列として保存・取得する
   serialize :prosthesis_types, coder: JSON

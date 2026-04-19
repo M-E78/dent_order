@@ -23,10 +23,28 @@ class PatientsController < ApplicationController
     @lab_orders = @patient.lab_orders.order(created_at: :desc)
   end
 
+  def destroy
+    # 他の病院の患者を消さないよう、current_user.clinic 経由で探す
+    @patient = current_user.clinic.patients.find(params[:id])
+
+    if @patient.destroy
+      redirect_to root_path, notice: "患者データを削除しました。", status: :see_other
+    else
+      redirect_to root_path, alert: "削除に失敗しました。", status: :see_other
+    end
+  end
+
   def edit
+    @patient = current_user.clinic.patients.find(params[:id])
   end
 
   def update
+    @patient = current_user.clinic.patients.find(params[:id])
+    if @patient.update(patient_params)
+      redirect_to patient_path(@patient), notice: "患者情報を更新しました。"
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   private

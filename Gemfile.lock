@@ -169,7 +169,9 @@ GEM
     mcp (0.9.0)
       json-schema (>= 4.1)
     mini_mime (1.1.5)
-    minitest (5.27.0)
+    minitest (6.0.6)
+      drb (~> 2.0)
+      prism (~> 1.5)
     msgpack (1.8.0)
     multipart-post (2.4.1)
     mysql2 (0.5.7)
@@ -365,7 +367,7 @@ DEPENDENCIES
   devise-two-factor
   jbuilder
   jsbundling-rails
-  minitest (< 6)
+  minitest (< 7)
   mysql2 (~> 0.5)
   pg
   puma (>= 5.0)

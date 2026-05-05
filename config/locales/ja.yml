@@ -1,0 +1,13 @@
+ja:
+  devise:
+    sessions:
+      new:
+        welcome: "ようこそ、%{name} 先生"
+        subtitle: "技工指示書管理システム"
+        title: "ログイン"
+        instruction: "アカウント情報を入力してください"
+        email_placeholder: "example@dental-clinic.com"
+        password_placeholder: "････････"
+        submit: "ログイン"
+        or: "または"
+        sign_up: "新規アカウント登録"

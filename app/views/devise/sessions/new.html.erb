@@ -1,5 +1,5 @@
 <% if user_signed_in? %>
-  <p class="text-slate-600 font-bold">ようこそ、<%= current_user.name %> 先生</p>
+  <p class="text-slate-600 font-bold"><%= t('.welcome', name: current_user.name) %></p>
 <% end %>
 
 <div class="min-h-screen flex flex-col items-center justify-center bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -10,42 +10,40 @@
       </svg>
     </div>
     <h1 class="text-4xl font-extrabold text-blue-700 tracking-tight">Dent-Order</h1>
-    <p class="mt-2 text-sm text-slate-500 font-medium tracking-widest">技工指示書管理システム</p>
+    <p class="mt-2 text-sm text-slate-500 font-medium tracking-widest"><%= t('.subtitle') %></p>
   </div>
 
   <div class="max-w-md w-full bg-white rounded-3xl shadow-xl p-10 border border-slate-100">
-    <h2 class="text-2xl font-bold text-slate-800 mb-2">ログイン</h2>
-    <p class="text-sm text-slate-400 mb-8">アカウント情報を入力してください</p>
+    <h2 class="text-2xl font-bold text-slate-800 mb-2"><%= t('.title') %></h2>
+    <p class="text-sm text-slate-400 mb-8"><%= t('.instruction') %></p>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
   
   <%# メールアドレス部分 %>
 <div class="relative mt-2">
-  <%# --- アイコンを復活させる --- %>
   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
     <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.206" />
     </svg>
   </div>
-  <%# --- 枠線の色と余白を再設定 --- %>
-  <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "example@dental-clinic.com", 
+  <%# placeholderもt()で置き換えます %>
+  <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: t('.email_placeholder'), 
       class: "block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder-slate-400" %>
 </div>
 
 <%# パスワード部分 %>
 <div class="relative mt-2">
-  <%# --- 鍵アイコン --- %>
   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
     <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
     </svg>
   </div>
-  <%= f.password_field :password, autocomplete: "current-password", placeholder: "････････", 
+  <%= f.password_field :password, autocomplete: "current-password", placeholder: t('.password_placeholder'), 
       class: "block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder-slate-400" %>
 </div>
 
   <div>
-    <%= f.submit "ログイン", class: "w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg text-lg font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all active:scale-[0.98]" %>
+    <%= f.submit t('.submit'), class: "w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg text-lg font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all active:scale-[0.98]" %>
   </div>
 <% end %>
 
@@ -54,13 +52,13 @@
       <div class="w-full border-t border-slate-100"></div>
     </div>
     <div class="relative flex justify-center text-sm">
-      <span class="bg-white px-4 text-slate-400 font-medium">または</span>
+      <span class="bg-white px-4 text-slate-400 font-medium"><%= t('.or') %></span>
     </div>
   </div>
 
       <%= link_to select_role_path, class: "w-full flex justify-center py-3.5 px-4 border-2 border-slate-100 rounded-xl shadow-sm text-sm font-bold text-slate-600 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-all duration-200" do %>
         <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
-        新規アカウント登録
+        <%= t('.sign_up') %>
       <% end %>
   </div>
 

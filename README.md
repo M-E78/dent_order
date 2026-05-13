@@ -1,5 +1,6 @@
-App URL:https://dent-order.onrender.com
-note記事:https://note.com/m_e_78/n/ncc8b1f38cb1c
+App URL:https://dent-order.onrender.com  
+
+note記事:https://note.com/m_e_78/n/ncc8b1f38cb1c  
 
 現役の歯科技工士として、歯科業界の『情報の非対称性』と『入力コスト』をITで解決することが本プロジェクトの至上命題です。
 

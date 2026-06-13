@@ -14,6 +14,9 @@ jobs:
       - name: コードのチェックアウト
         uses: actions/checkout@v4
 
+      - name: CI用のダミー.envファイルを作成
+        run: touch .env
+
       - name: Dockerイメージのビルド
         run: docker compose build
 

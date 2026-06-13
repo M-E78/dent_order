@@ -20,6 +20,9 @@ jobs:
       - name: Dockerイメージのビルド
         run: docker compose build
 
+      - name: Gemのインストール
+        run: docker compose run --rm web bundle install
+
       - name: データベースのセットアップ（テスト環境）
         run: |
           docker compose run --rm web bundle exec rails db:create RAILS_ENV=test

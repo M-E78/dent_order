@@ -5,6 +5,6 @@ class Patient < ApplicationRecord
 
   validates :name, presence: true
   validates :chart_number, uniqueness: { scope: :clinic_id }, allow_blank: true
-  #　uniquenessに { scope: :clinic_id } をつけることで、
+  # 　uniquenessに { scope: :clinic_id } をつけることで、
   # 「他の医院には同じカルテ番号の人がいても良いが、同じ医院内では重複を許さない」という実務に即した仕様になる。
 end

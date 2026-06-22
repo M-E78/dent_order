@@ -15,6 +15,11 @@
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+
+    <meta property="og:title" content="Dent-Order | 歯科業界向け受発注システム">
+    <meta property="og:description" content="歯科医院と歯科技工所をつなぐ、スムーズな受発注管理システムです。">
+    <meta property="og:image" content="<%= asset_url('ogp.png') %>">
+    <meta name="twitter:card" content="summary_large_image">
   </head>
 
   <body class="bg-slate-50">

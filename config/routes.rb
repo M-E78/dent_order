@@ -49,6 +49,7 @@ Rails.application.routes.draw do
 end
 
   # 6. その他
+  get '/reset_test_data', to: 'top#reset_test_data'
   root "top#index"
   get "signup/select", to: "pages#select_role", as: :select_role
   resources :patients
